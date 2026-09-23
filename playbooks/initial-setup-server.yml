@@ -1,0 +1,33 @@
+- name: Cloud ru server test on Debian by Nikita
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update package repository cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install must have packages
+      ansible.builtin.apt:
+        name:
+          - vim # Text editor
+          - htop # Monitoring (replace top)
+          - tmux # Multiplexor
+          - fail2ban # Secure for ssh from brute-force
+          - ncdu # Analyze disk space
+          - curl
+          - wget
+        state: present
+
+    - name: Enable auto security update
+      ansible.builtin.apt:
+        name: unattended-upgrades
+        state: present
+
+    - name: Automatic updates
+      ansible.builtin.copy:
+        content: |
+          APT::Periodic::Update-Package-Lists "1";
+          APT::Periodic::Unattended-Upgrade "1";
+        dest: /etc/apt/apt.conf.d/20auto-upgrades
+        mode: '0644'
