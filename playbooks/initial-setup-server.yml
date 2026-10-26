@@ -17,6 +17,8 @@
           - ncdu # Analyze disk space
           - curl
           - wget
+          - ca-certificates
+          
         state: present
 
     - name: Enable auto security update

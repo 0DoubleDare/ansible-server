@@ -1,0 +1,5 @@
+- name: Set up ssh server
+  hosts: all
+  become: true
+  tasks:
+    - name: 
